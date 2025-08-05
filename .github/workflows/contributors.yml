@@ -12,7 +12,16 @@ jobs:
   generate-contributors:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository == 'The-Purple-Movement/WikiSyllabus' }}
+
     steps:
+      - name: Exit early if this is a fork (fallback safety)
+        run: |
+          if [ "${{ github.repository }}" != "The-Purple-Movement/WikiSyllabus" ]; then
+            echo "This is a fork — exiting workflow early."
+            exit 1
+          fi
+
       # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
